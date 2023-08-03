@@ -11,8 +11,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    author: {
-      type: DataTypes.STRING,
+    authors: {
+      type: DataTypes.ARRAY,
+    },
+    publishedDate: {
+      type: DataTypes.INTEGER,
     },
     price: {
       type: DataTypes.FLOAT,
