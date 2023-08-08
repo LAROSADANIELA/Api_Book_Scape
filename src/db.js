@@ -37,6 +37,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
+console.log(sequelize.models);
 const {Book, Categorie,Publisher,Lenguage,Comment,User,Transaction} = sequelize.models;
 
 // Aca vendrian las relaciones
@@ -44,8 +45,9 @@ const {Book, Categorie,Publisher,Lenguage,Comment,User,Transaction} = sequelize.
 
 ///////////////// A REVISAR ///////////////////////
 /// vi por amazon que un libro puede tener varias categorias
-Book.belongsToMany(Categorie, {trougth: "book_categorie", timestamps: false});
-Categorie.belongsToMany(Book, {trougth: "book_categorie", timestamps: false});
+
+Book.belongsToMany(Categorie, {through: "book_categorie", timestamps: false});
+Categorie.belongsToMany(Book, {through: "book_categorie", timestamps: false});
 // un libro puede tener un solo publicador, ya si este se codifica cambia su codigo ISBN;
 Publisher.hasMany(Book);
 // un libro puede tener un idioma pero un idioma varios libros
@@ -56,10 +58,11 @@ Book.hasMany(Comment);
 User.hasMany(Comment);
 // un user puede tener varias transacciones pero una transaccion un solo user
 User.hasMany(Transaction);
-// un libro puede estar en varias transacciones
-Book.belongsToMany(Transaction, {trougth: "book_tr", timestamps: true});
+// un libro puede estar en varias transacciones 
+
+Book.belongsToMany(Transaction, {through: "book_tr", timestamps: true});
 /// y una transaccion puede contener varios libros
-Transaction.belongsToMany(Book, {trougth: "book_tr", timestamps: true});
+Transaction.belongsToMany(Book, {through: "book_tr", timestamps: true});
 ///////////////// A REVISAR ///////////////////////
 
 
