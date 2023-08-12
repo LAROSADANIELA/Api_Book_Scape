@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
       autoIncrement: true,
     },
 
+    
     cart_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
