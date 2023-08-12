@@ -6,24 +6,7 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-    },/*
-    user_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      references: {
-        model: "User", // Nombre de la tabla de usuarios (User)
-        key: "id", // Columna referenciada en la tabla de usuarios
-      },
     },
-    book_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      references: {
-        model: "Book", // Nombre de la tabla de libros (Book)
-        key: "id_book", // Columna referenciada en la tabla de libros
-      },
-    },*/
     review_text: {
       type: DataTypes.TEXT,
       allowNull: true,
@@ -37,10 +20,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    active: {
+   /*active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
-    },
-  });
+    },*/
+  },{paranoid:true});
 };

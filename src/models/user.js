@@ -29,13 +29,12 @@ module.exports = (sequelize) => {
       allowNull: true,
       default: false
       },
-    date:{
+    born_date:{
         type: DataTypes.DATE,
-        allowNull: true,
-        
+        allowNull: true, 
     },
     active:{
       type: DataTypes.BOOLEAN
       }
-  });
+  },{paranoid:true});
 };

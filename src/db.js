@@ -26,7 +26,7 @@ fs.readdirSync(path.join(__dirname, "/models"))
   });
 
 // Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach((model) => model(sequelize));
+modelDefiners.forEach((model) => model(sequelize));   
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [
@@ -40,60 +40,47 @@ sequelize.models = Object.fromEntries(capsEntries);
 console.log(sequelize.models);
 const {
   Book,
-  Categorie,
-  Publisher,
-  Lenguage,
   Review,
   User,
   Pay,
   Favorite,
   ShoppingCart,
   Order,
+  Detail,
 } = sequelize.models;
 
 // Aca vendrian las relaciones
 
-/// RELACION TABLA BOOKS A CATEGORIES ///
-Book.hasOne(Categorie);
-Categorie.hasMany(Book);
-/// RELACION TABLA BOOKS A PUBLISHER ///
-Book.hasOne(Publisher);
-Publisher.hasMany(Book);
-/// RELACION TALBA BOOKS A FAVORITES ///
-Book.hasOne(Favorite);
+Book.hasMany(Favorite);
 Favorite.hasOne(Book);
-/// RELACION TABLA BOOKS A LENGUAGES ///
-Book.hasOne(Lenguage);
-Lenguage.hasMany(Book);
-/// RELACION TABLA BOOKS A REVIEWS ///
+
+User.hasMany(Favorite);
+Favorite.hasOne(User);
+
 Book.hasMany(Review);
 Review.hasOne(Book);
-/// RELACION TABLA BOOKS A SHOPING_CART ///
-Book.belongsToMany(ShoppingCart, {
-  through: "shopingCart_book",
-  timestamps: true,
-});
-ShoppingCart.belongsToMany(Book, {
-  through: "shopingCart_book",
-  timestamps: true,
-});
-/// RELACION TABLA USERS A FAVORITES ///
-User.belongsToMany(Favorite, { through: "fav_user", timestamps: true });
-Favorite.belongsToMany(User, { through: "fav_user", timestamps: true });
-/// RELACION TABLA USERS A PAY ///
+
+Book.belongsToMany(ShoppingCart, { through: "shopping_book" });
+ShoppingCart.belongsToMany(Book, { through: "shopping_book"});
+
 User.hasMany(Pay);
 Pay.hasOne(User);
-/// RELACION TABLA USERS A ORDERS ///
+
 User.hasMany(Order);
-Order.hasOne(Order);
-/// RELACION TABLA USERS A SHOPING_CART ///
+Order.hasOne(User);
+
+Order.hasMany(Detail);
+Detail.hasOne(Order);
+
+Order.hasOne(Pay);
+Pay.hasOne(Order);
+
 User.hasOne(ShoppingCart);
-ShoppingCart.hasMany(User);
-/// RELACION TABLA USER REVIEW ///
+ShoppingCart.hasOne(User);
+
 User.hasMany(Review);
 Review.hasOne(User)
 /////////////////////////////////////////////////////////////////////
-
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');

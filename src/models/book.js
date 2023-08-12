@@ -4,9 +4,13 @@ module.exports = (sequelize) => {
   sequelize.define("Book", {
     /// id seria el codigo ISBN del libro ///
     id_book: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
       primaryKey: true,
+    },
+    isbn:{
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     title: {
       type: DataTypes.STRING,
@@ -27,6 +31,10 @@ module.exports = (sequelize) => {
     published_date: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    publisher: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),
@@ -57,11 +65,11 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
         allowNull: true,
       },
-    active: {
+    /*active: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
-    },
-  });
+    },*/
+  },{paranoid:true});
 };
 
