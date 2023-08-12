@@ -4,7 +4,8 @@ module.exports = (sequelize) => {
   sequelize.define("Book", {
     /// id seria el codigo ISBN del libro ///
     id_book: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     title: {
@@ -44,8 +45,8 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    gender: {
-      type: DataTypes.STRING,
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
     page_count: {

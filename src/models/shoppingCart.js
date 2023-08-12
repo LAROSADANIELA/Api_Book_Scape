@@ -7,25 +7,27 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
+    /*user_id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
-        model: "Users", // Nombre de la tabla de usuarios (User)
-        key: "user_id", // Columna referenciada en la tabla de usuarios
+        model: "User", // Nombre de la tabla de usuarios (User)
+        key: "id", // Columna referenciada en la tabla de usuarios
       },
     },
     book_id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
-        model: "Books", // Nombre de la tabla de libros (Book)
-        key: "book_id", // Columna referenciada en la tabla de libros
+        model: "Book", // Nombre de la tabla de libros (Book)
+        key: "id_book", // Columna referenciada en la tabla de libros
       },
-    },
+    },*/
     orders_id: {
-      type: DataTypes.LONG,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
       allowNull: false,
     },
   });

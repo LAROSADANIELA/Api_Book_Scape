@@ -1,12 +1,13 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("Review", {
-    review_id: {
+  sequelize.define("Favorite", {
+    favorites_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-    },/*
+    },
+/*
     user_id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -24,15 +25,7 @@ module.exports = (sequelize) => {
         key: "id_book", // Columna referenciada en la tabla de libros
       },
     },*/
-    review_text: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    rating: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    review_date: {
+    added_date: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,

@@ -38,36 +38,61 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 console.log(sequelize.models);
-const {Book, Categorie,Publisher,Lenguage,Comment,User,Transaction} = sequelize.models;
+const {
+  Book,
+  Categorie,
+  Publisher,
+  Lenguage,
+  Review,
+  User,
+  Pay,
+  Favorite,
+  ShoppingCart,
+  Order,
+} = sequelize.models;
 
 // Aca vendrian las relaciones
-// Product.hasMany(Reviews);
 
-///////////////// A REVISAR ///////////////////////
-/// vi por amazon que un libro puede tener varias categorias
-
-Book.belongsToMany(Categorie, {through: "book_categorie", timestamps: false});
-Categorie.belongsToMany(Book, {through: "book_categorie", timestamps: false});
-// un libro puede tener un solo publicador, ya si este se codifica cambia su codigo ISBN;
+/// RELACION TABLA BOOKS A CATEGORIES ///
+Book.hasOne(Categorie);
+Categorie.hasMany(Book);
+/// RELACION TABLA BOOKS A PUBLISHER ///
+Book.hasOne(Publisher);
 Publisher.hasMany(Book);
-// un libro puede tener un idioma pero un idioma varios libros
+/// RELACION TALBA BOOKS A FAVORITES ///
+Book.hasOne(Favorite);
+Favorite.hasOne(Book);
+/// RELACION TABLA BOOKS A LENGUAGES ///
+Book.hasOne(Lenguage);
 Lenguage.hasMany(Book);
-//comentarios un libro peude tener varios comentarios pero un comentario solo un libro
-Book.hasMany(Comment);
-//un User puede tenr varios comentarios pero cada comentario un user
-User.hasMany(Comment);
-// un user puede tener varias transacciones pero una transaccion un solo user
-User.hasMany(Transaction);
-// un libro puede estar en varias transacciones 
-
-Book.belongsToMany(Transaction, {through: "book_tr", timestamps: true});
-/// y una transaccion puede contener varios libros
-Transaction.belongsToMany(Book, {through: "book_tr", timestamps: true});
-///////////////// A REVISAR ///////////////////////
-
-
-
-
+/// RELACION TABLA BOOKS A REVIEWS ///
+Book.hasMany(Review);
+Review.hasOne(Book);
+/// RELACION TABLA BOOKS A SHOPING_CART ///
+Book.belongsToMany(ShoppingCart, {
+  through: "shopingCart_book",
+  timestamps: true,
+});
+ShoppingCart.belongsToMany(Book, {
+  through: "shopingCart_book",
+  timestamps: true,
+});
+/// RELACION TABLA USERS A FAVORITES ///
+User.belongsToMany(Favorite, { through: "fav_user", timestamps: true });
+Favorite.belongsToMany(User, { through: "fav_user", timestamps: true });
+/// RELACION TABLA USERS A PAY ///
+User.hasMany(Pay);
+Pay.hasOne(User);
+/// RELACION TABLA USERS A ORDERS ///
+User.hasMany(Order);
+Order.hasOne(Order);
+/// RELACION TABLA USERS A SHOPING_CART ///
+User.hasOne(ShoppingCart);
+ShoppingCart.hasMany(User);
+/// RELACION TABLA USER REVIEW ///
+User.hasMany(Review);
+Review.hasOne(User)
+/////////////////////////////////////////////////////////////////////
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
