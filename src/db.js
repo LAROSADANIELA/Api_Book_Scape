@@ -26,7 +26,7 @@ fs.readdirSync(path.join(__dirname, "/models"))
   });
 
 // Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach((model) => model(sequelize));
+modelDefiners.forEach((model) => model(sequelize));   
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [
@@ -37,11 +37,65 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const {} = sequelize.models;
+console.log(sequelize.models);
+const {
+  Book,
+  Review,
+  User,
+  Pay,
+  Favorite,
+  ShoppingCart,
+  Order,
+  Detail,
+  Language,
+  Publisher,
+  Tag,
+  Author
+} = sequelize.models;
 
 // Aca vendrian las relaciones
-// Product.hasMany(Reviews);
+Language.hasMany(Book);
+Book.hasOne(Language);
 
+Publisher.hasMany(Book);
+Book.hasOne(Publisher);
+
+Book.hasMany(Favorite);
+Favorite.hasOne(Book);
+
+User.hasMany(Favorite);
+Favorite.hasOne(User);
+
+Book.hasMany(Review);
+Review.hasOne(Book);
+
+Book.belongsToMany(Author, { through: "author_book" });
+Author.belongsToMany(Book, { through: "author_book"});
+
+Book.belongsToMany(Tag, { through: "tag_book" });
+Tag.belongsToMany(Book, { through: "tag_book"});
+
+Book.belongsToMany(ShoppingCart, { through: "shopping_book" });
+ShoppingCart.belongsToMany(Book, { through: "shopping_book"});
+
+User.hasMany(Pay);
+Pay.hasOne(User);
+
+User.hasMany(Order);
+Order.hasOne(User);
+
+Order.hasMany(Detail);
+Detail.hasOne(Order);
+
+Order.hasOne(Pay);
+Pay.hasOne(Order);
+
+User.hasOne(ShoppingCart);
+ShoppingCart.hasOne(User);
+
+User.hasMany(Review);
+Review.hasOne(User)
+/////////////////////////////////////////////////////////////////////
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');

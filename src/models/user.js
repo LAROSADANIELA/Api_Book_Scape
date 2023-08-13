@@ -24,5 +24,17 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
     },
-  });
+    admin: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      default: false
+      },
+    born_date:{
+        type: DataTypes.DATE,
+        allowNull: true, 
+    },
+    active:{
+      type: DataTypes.BOOLEAN
+      }
+  },{paranoid:true});
 };
