@@ -47,9 +47,18 @@ const {
   ShoppingCart,
   Order,
   Detail,
+  Language,
+  Publisher,
+  Tag,
+  Author
 } = sequelize.models;
 
 // Aca vendrian las relaciones
+Language.hasMany(Book);
+Book.hasOne(Language);
+
+Publisher.hasMany(Book);
+Book.hasOne(Publisher);
 
 Book.hasMany(Favorite);
 Favorite.hasOne(Book);
@@ -59,6 +68,12 @@ Favorite.hasOne(User);
 
 Book.hasMany(Review);
 Review.hasOne(Book);
+
+Book.belongsToMany(Author, { through: "author_book" });
+Author.belongsToMany(Book, { through: "author_book"});
+
+Book.belongsToMany(Tag, { through: "tag_book" });
+Tag.belongsToMany(Book, { through: "tag_book"});
 
 Book.belongsToMany(ShoppingCart, { through: "shopping_book" });
 ShoppingCart.belongsToMany(Book, { through: "shopping_book"});

@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     isbn:{
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     title: {
@@ -17,14 +17,14 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     /// un libro puede tener mas de un autor, es un array de strings //
-    authors: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: false,
-    },
-    language: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    // authors: {
+    //   type: DataTypes.ARRAY(DataTypes.STRING),
+    //   allowNull: false,
+    // },
+    // language: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },
     /// algunos libros tiene fecha exacta de publicacion, otros tiene solo año ///
     // como string ///
     /// se carga LA BDD de manera que figure solo el año como INTEGER ///
@@ -32,10 +32,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    publisher: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+    // publisher: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
@@ -53,10 +53,10 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    tags: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
-    },
+    // tags: {
+    //   type: DataTypes.ARRAY(DataTypes.STRING),
+    //   allowNull: true,
+    // },
     page_count: {
       type: DataTypes.INTEGER,
       allowNull: true,
