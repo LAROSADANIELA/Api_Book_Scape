@@ -8,7 +8,7 @@ const findById = require('../controllers/findById');
 
 /* GET books listing. */
  
-router.get("/books", allBooks)
+router.get("/", allBooks)
 router.get("/books/:id", findById)
 
 
