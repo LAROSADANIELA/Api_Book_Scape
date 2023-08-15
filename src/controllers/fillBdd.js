@@ -72,7 +72,7 @@ const createBdd = async (
     }
 };
 
-const fillBdd = async (req, res) => {
+const fillBdd = async () => {
   console.log("ENTER A LA FUNCION fillBdd");
   const books = [];
   const ISBN = [
@@ -179,11 +179,10 @@ const fillBdd = async (req, res) => {
       result: "success",
       prueba: "prueba llenar BDD",
     };
-    res.status(200).json(success);
     console.log(success);
+    return(success);
   }catch(err){
     console.log(err);
-    res.status(500).json({ message: err.message });
   };
 };
 module.exports = fillBdd;

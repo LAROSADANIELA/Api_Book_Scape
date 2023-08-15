@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const fillBdd = require('../controllers/fillBdd');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-router.post('/llenar_BDD', fillBdd) 
+const books = require('./books')
+const users = require('./users')
+
+router.use('/books', books);
+router.use('/users', users);
+
 module.exports = router;

@@ -1,14 +1,15 @@
 const express = require('express');
+//const getAllBooks = express.Router();
 const router = express.Router();
-const allBooks = require('../controllers/allbooks')
+const allBooks = require('../controllers/allBooks')
+
+const findById = require('../controllers/findById');
+
 
 /* GET books listing. */
-router.get('/', (req, res)=> {
-    try{
+ 
+router.get("/books", allBooks)
+router.get("/books/:id", findById)
 
-    }catch(error){
-        res.status(500).json({error:error.message})
-    }
-})
 
 module.exports = router;
