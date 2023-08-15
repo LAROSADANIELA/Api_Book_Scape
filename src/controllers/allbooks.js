@@ -8,10 +8,14 @@ const allBooks = async (req, res, next) => {
         
         const allBooksDB = await Book.findAll({
             attributes: ['title','price','rating_ave','image'],
-            include: Author /*{
-                model: Language,
-                attributes:['language']
-            }*/
+            include: {
+                model: Author,
+                attributes: ["name"],
+                through: {
+                  attributes: [],
+                },
+              },
+            
         })
         res.send(allBooksDB)
     } catch (error) {
