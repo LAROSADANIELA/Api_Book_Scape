@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST,RW_USERdb,RW_PORTdb} = process.env;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/bookStore`,
@@ -11,6 +11,16 @@ const sequelize = new Sequelize(
     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
   }
 );
+
+// // Conectar con la DB remota (Railway)
+// const sequelize = new Sequelize(
+//   `postgresql://postgres:${RW_USERdb}@containers-us-west-155.railway.app:${RW_PORTdb}/railway`,
+//   {
+//     logging: false, // set to console.log to see the raw SQL queries
+//     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+//   }
+// );
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -52,14 +62,16 @@ const {
   Tag,
   Author
 } = sequelize.models;
-
+//!Revisar todas las relaciones hasMany y pasar a belongto()
 // Aca vendrian las relaciones
-Language.hasMany(Book); //agrega el id Language a book
+//Language.hasMany(Book); //agrega el id Language a book
+//Book.hasOne(Language) //llave foranea definida en Language 
+Book.belongsTo(Language,{foreignKey:'LanguageId'})
 
 Publisher.hasMany(Book); //agrega el id Publisher a book
 
 Book.hasMany(Favorite); //agrega el id Book a Favorite
-Favorite.hasOne(Book);
+Favorite.hasOne(Book); // llave foranea definida en book 
 
 User.hasMany(Favorite); //agrega el id User a Favorite
 
