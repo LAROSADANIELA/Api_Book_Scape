@@ -2,7 +2,7 @@ const app = require("./src/app");
 const { conn } = require("./src/db.js");
 require("dotenv").config();
 const { SV_PORT } = process.env;
-const fillBdd = require ("./src/controllers/fillBdd")
+//const fillBdd = require ("./src/controllers/fillBdd")
 // Syncing all the models at once.
 async function main() {
   try {
