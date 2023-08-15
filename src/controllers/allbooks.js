@@ -15,7 +15,6 @@ const allBooks = async (req, res, next) => {
                   attributes: [],
                 },
               },
-
         })
         res.send(allBooksDB)
     } catch (error) {
