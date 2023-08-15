@@ -6,10 +6,10 @@ const {Book, Language, Author} = require("../db")
 const allBooks = async () => {
     return await Book.findAll({
         attributes: ['title','price','rating_ave','image'],
-        include: {
+        include: Author /*{
             model: Language,
             attributes:['language']
-        }
+        }*/
     })
 }
 
