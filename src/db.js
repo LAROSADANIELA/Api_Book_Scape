@@ -54,29 +54,27 @@ const {
 } = sequelize.models;
 
 // Aca vendrian las relaciones
-Language.hasMany(Book);
-Book.hasOne(Language);
+Language.hasMany(Book); //agrega el id Language a book
 
-Publisher.hasMany(Book);
-Book.hasOne(Publisher);
+Publisher.hasMany(Book); //agrega el id Publisher a book
 
-Book.hasMany(Favorite);
+Book.hasMany(Favorite); //agrega el id Book a Favorite
 Favorite.hasOne(Book);
 
-User.hasMany(Favorite);
+User.hasMany(Favorite); //agrega el id User a Favorite
 Favorite.hasOne(User);
 
 Book.hasMany(Review);
 Review.hasOne(Book);
 
-Book.belongsToMany(Author, { through: "author_book" });
-Author.belongsToMany(Book, { through: "author_book"});
+Book.belongsToMany(Author, { through: "author_book" }); //Crea tabla intermedia
+Author.belongsToMany(Book, { through: "author_book"}); //Crea tabla intermedia
 
-Book.belongsToMany(Tag, { through: "tag_book" });
-Tag.belongsToMany(Book, { through: "tag_book"});
+Book.belongsToMany(Tag, { through: "tag_book" }); //Crea tabla intermedia
+Tag.belongsToMany(Book, { through: "tag_book"}); //Crea tabla intermedia
 
-Book.belongsToMany(ShoppingCart, { through: "shopping_book" });
-ShoppingCart.belongsToMany(Book, { through: "shopping_book"});
+Book.belongsToMany(ShoppingCart, { through: "shopping_book" }); //Crea tabla intermedia
+ShoppingCart.belongsToMany(Book, { through: "shopping_book"}); //Crea tabla intermedia
 
 User.hasMany(Pay);
 Pay.hasOne(User);
