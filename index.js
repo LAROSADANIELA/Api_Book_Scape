@@ -1,5 +1,6 @@
 const app = require("./src/app");
 const { conn } = require("./src/db.js");
+const fillBdd = require("./src/controllers/fillBdd");
 require("dotenv").config();
 const { SV_PORT } = process.env;
 //const fillBdd = require ("./src/controllers/fillBdd")
