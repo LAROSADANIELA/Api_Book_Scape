@@ -6,10 +6,10 @@ const { SV_PORT } = process.env;
 async function main() {
   try {
     // Autenticar la conexión con la base de datos
-    await conn.authenticate();
+    await conn.authenticate();  
     console.log("Connection has been established successfully.");
     // Sincronizar el modelo de la base de datos
-    conn.sync({ force: false }).then(() => {
+    conn.sync({ force: true }).then(() => {
       // Iniciar el servidor web en el puerto especificado
       app.listen(SV_PORT, () => {
         console.log(`%s listening at ${SV_PORT}`); // eslint-disable-line no-console

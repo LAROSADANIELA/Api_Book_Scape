@@ -107,9 +107,11 @@ const fillBdd = async (req, res) => {
         authors: data.items[0].volumeInfo.authors
           ? data.items[0].volumeInfo.authors
           : ["none"],
-        published_date: Number(
-          data.items[0].volumeInfo.publishedDate.slice(0, -6)
-        ),
+        published_date: data.items[0].volumeInfo.publishedDate.length === 4
+        ?
+        (Number(data.items[0].volumeInfo.publishedDate))
+        :
+        (Number(data.items[0].volumeInfo.publishedDate.slice(0, -6))),
         description: data.items[0].volumeInfo.description,
         publisher: data.items[0].volumeInfo.publisher
           ? data.items[0].volumeInfo.publisher

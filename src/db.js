@@ -62,7 +62,6 @@ Book.hasMany(Favorite); //agrega el id Book a Favorite
 Favorite.hasOne(Book);
 
 User.hasMany(Favorite); //agrega el id User a Favorite
-Favorite.hasOne(User);
 
 Book.hasMany(Review);
 Review.hasOne(Book);
@@ -89,7 +88,6 @@ Order.hasOne(Pay);
 Pay.hasOne(Order);
 
 User.hasOne(ShoppingCart);
-ShoppingCart.hasOne(User);
 
 User.hasMany(Review);
 Review.hasOne(User)
