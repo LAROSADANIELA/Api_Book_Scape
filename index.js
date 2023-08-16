@@ -12,7 +12,7 @@ async function main() {
     console.log("Connection has been established successfully.");
     // Sincronizar el modelo de la base de datos
     conn.sync({ force: true }).then(() => {
-      //fillBdd();
+      fillBdd();
       // Iniciar el servidor web en el puerto especificado
       app.listen(SV_PORT, () => {
         console.log(`%s listening at ${SV_PORT}`); // eslint-disable-line no-console

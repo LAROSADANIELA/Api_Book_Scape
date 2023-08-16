@@ -100,17 +100,17 @@ const fillBdd = async () => {
       let { data } = await axios.get(
         `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN[i]}&key:${API_KEY}`
       );
-
+      console.log("consultando libro",ISBN[i]);
       const book = {
         isbn: ISBN[i].toString(),
         title: data.items[0].volumeInfo.title,
         authors: data.items[0].volumeInfo.authors
           ? data.items[0].volumeInfo.authors
           : ["none"],
-        published_date: data.items[0].volumeInfo.publishedDate.length === 4
+        published_date: /* data.items[0].volumeInfo.publishedDate.length=== 4
         ?
         (Number(data.items[0].volumeInfo.publishedDate))
-        :
+        :*/
         (Number(data.items[0].volumeInfo.publishedDate.slice(0, -6))),
         description: data.items[0].volumeInfo.description,
         publisher: data.items[0].volumeInfo.publisher
