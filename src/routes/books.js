@@ -13,7 +13,7 @@ const allLanguage = require('../controllers/allLanguage');
  
 router.get("/", allBooks)
 router.get("/language", allLanguage)
-router.get("/books/:id", findById)
+router.get("/book/:id", findById)
 router.get("/tags", allTags)
 //router.get("/:id", findById)
 module.exports = router;
