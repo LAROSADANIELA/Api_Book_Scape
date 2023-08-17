@@ -1,12 +1,41 @@
 const {Book, Language, Author} = require("../db")
+const {Op} = require('sequelize')
 
 
 
 //titulo imagen rating author precio CARD
 const allBooks = async (req, res, next) => {
     try {
-        
+        const {target} = req.query
+        if(!target){
+            const allBooksDB = await Book.findAll({
+                attributes: ['title','price','rating_ave','image'],
+                include: {
+                    model: Author,
+                    attributes: ["name"],
+                    through: {
+                      attributes: [],
+                    },
+                  },
+            })
+            return res.send(allBooksDB)
+        }
+        console.log("Busqueda Por Book")
+        console.log("Buscando",target)
         const allBooksDB = await Book.findAll({
+            where:{[Op.or]:[
+                {title: {[Op.iLike]:`%${target}%`}},
+            /*{'$author_book.AuthorId$': {[Op.iLike]:`%${target}%`}},*/]}
+                },
+                // include: {
+                //     model: Author,
+                //     attributes: ["name"],
+                //     through: {
+                //       attributes: [],
+                //     },
+                //   },
+            
+            {
             attributes: ['title','price','rating_ave','image'],
             include: {
                 model: Author,
@@ -14,9 +43,23 @@ const allBooks = async (req, res, next) => {
                 through: {
                   attributes: [],
                 },
-              },
+            },
         })
-        res.send(allBooksDB)
+        console.log("resultado de busqueda por book",allBooksDB)
+        if(allBooksDB.length === 0){
+            console.log("Busqueda Por Author")
+            console.log("Buscando",target)
+           const author =  await Author.findAll({
+                where: {
+                    name: {
+                        [Op.iLike]:`%${target}%`
+                    }
+                },
+                include: Book,
+            });
+           return res.send(author)
+        }
+         res.send(allBooksDB)
     } catch (error) {
         next(error)
     }
