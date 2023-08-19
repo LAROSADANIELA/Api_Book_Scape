@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST,RW_USERdb,RW_PORTdb} = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, RW_USERdb, RW_PORTdb } = process.env;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/bookscape`,
@@ -36,7 +36,7 @@ fs.readdirSync(path.join(__dirname, "/models"))
   });
 
 // Injectamos la conexion (sequelize) a todos los modelos
-modelDefiners.forEach((model) => model(sequelize));   
+modelDefiners.forEach((model) => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [
@@ -47,7 +47,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-console.log(sequelize.models);
+// console.log(sequelize.models);
 const {
   Book,
   Review,
@@ -60,7 +60,7 @@ const {
   Language,
   Publisher,
   Tag,
-  Author
+  Author,
 } = sequelize.models;
 //!Revisar todas las relaciones hasMany y pasar a belongto()
 // Aca vendrian las relaciones
@@ -73,61 +73,59 @@ const {
 // Post.belongsTo(User, {foreignKey:'UserId'}) // añande una UserId  a la tabla Post
 
 //Relaciones de Book
-Publisher.hasMany(Book,{foreignKey:'PublisherId'}) //añade una foringKey PublisherId a Book
-Book.belongsTo(Publisher, {foreignKey:'PublisherId'}) //añade una foringKey PublisherId a Book
+Publisher.hasMany(Book, { foreignKey: "PublisherId" }); //añade una foringKey PublisherId a Book
+Book.belongsTo(Publisher, { foreignKey: "PublisherId" }); //añade una foringKey PublisherId a Book
 
-Language.hasMany(Book, {foreignKey:'LanguageId'}) //añade una foringKey LanguageId a Book
-Book.belongsTo(Language, {foreignKey:'LanguageId'}) //añade una foringKey LanguageId a Book
+Language.hasMany(Book, { foreignKey: "LanguageId" }); //añade una foringKey LanguageId a Book
+Book.belongsTo(Language, { foreignKey: "LanguageId" }); //añade una foringKey LanguageId a Book
 
-Book.hasMany(Review, {foreignKey:'BookId'}) //añade una foringKey BookId a Review
-Review.belongsTo(Book, {foreignKey:'BookId'}) //añade una foringKey BookId a Review
+Book.hasMany(Review, { foreignKey: "BookId" }); //añade una foringKey BookId a Review
+Review.belongsTo(Book, { foreignKey: "BookId" }); //añade una foringKey BookId a Review
 
-Book.hasMany(Favorite, {foreignKey:'BookId'}) //añade una foringKey BookId a Favorite
-Favorite.belongsTo(Book, {foreignKey:'BookId'}) //añade una foringKey BookId a Favorite
+Book.hasMany(Favorite, { foreignKey: "BookId" }); //añade una foringKey BookId a Favorite
+Favorite.belongsTo(Book, { foreignKey: "BookId" }); //añade una foringKey BookId a Favorite
 
 // Realciones Many to Many de Book
 Book.belongsToMany(Author, { through: "author_book" }); //Crea tabla intermedia
-Author.belongsToMany(Book, { through: "author_book"}); //Crea tabla intermedia
+Author.belongsToMany(Book, { through: "author_book" }); //Crea tabla intermedia
 
 Book.belongsToMany(Tag, { through: "tag_book" }); //Crea tabla intermedia
-Tag.belongsToMany(Book, { through: "tag_book"}); //Crea tabla intermedia
+Tag.belongsToMany(Book, { through: "tag_book" }); //Crea tabla intermedia
 
 Book.belongsToMany(ShoppingCart, { through: "shopping_book" }); //Crea tabla intermedia
-ShoppingCart.belongsToMany(Book, { through: "shopping_book"}); //Crea tabla intermedia
+ShoppingCart.belongsToMany(Book, { through: "shopping_book" }); //Crea tabla intermedia
 
 //Realaciones de User
-User.hasMany(Review, {foreignKey:'UserId'}) //añade una foringKey UserId a Review
-Review.belongsTo(User, {foreignKey:'UserId'}) //añade una foringKey UserId a Review
+User.hasMany(Review, { foreignKey: "UserId" }); //añade una foringKey UserId a Review
+Review.belongsTo(User, { foreignKey: "UserId" }); //añade una foringKey UserId a Review
 // de esta manera cada favorito, tendra un libro y es un solo User de ese favorito
-User.hasMany(Favorite, {foreignKey:'UserId'}) //añade una foringKey UserId a Favorite
-Favorite.belongsTo(User, {foreignKey:'UserId'}) //añade una foringKey UserId a Favorite
+User.hasMany(Favorite, { foreignKey: "UserId" }); //añade una foringKey UserId a Favorite
+Favorite.belongsTo(User, { foreignKey: "UserId" }); //añade una foringKey UserId a Favorite
 
-User.hasMany(Order, {foreignKey:'UserId'}) //añade una foringKey UserId a Order
-Order.belongsTo(User, {foreignKey:'UserId'}) //añade una foringKey UserId a Order
+User.hasMany(Order, { foreignKey: "UserId" }); //añade una foringKey UserId a Order
+Order.belongsTo(User, { foreignKey: "UserId" }); //añade una foringKey UserId a Order
 
-User.hasMany(Pay, {foreignKey:'UserId'}) //añade una foringKey UserId a Pay
-Pay.belongsTo(User, {foreignKey:'UserId'}) //añade una foringKey UserId a Pay
+User.hasMany(Pay, { foreignKey: "UserId" }); //añade una foringKey UserId a Pay
+Pay.belongsTo(User, { foreignKey: "UserId" }); //añade una foringKey UserId a Pay
 
-User.hasOne(ShoppingCart, {foreignKey:'UserId'}) //añade un foringKey UserId a ShoppingCart
-ShoppingCart.belongsTo(User, {foreignKey:'UserId'}) //añade un foringKey UserId a ShoppingCart
+User.hasOne(ShoppingCart, { foreignKey: "UserId" }); //añade un foringKey UserId a ShoppingCart
+ShoppingCart.belongsTo(User, { foreignKey: "UserId" }); //añade un foringKey UserId a ShoppingCart
 //de la siguiente manera se amplia la posibilidad de busqueda de los controllers para futuras necesidades
-ShoppingCart.hasOne(User, {foreignKey:'ShoppingCartId'}) //añade un foringKey ShoppingCartId a User
-User.belongsTo(ShoppingCart, {foreignKey:'ShoppingCartId'}) //añade un foringKey ShoppingCartId a User
+ShoppingCart.hasOne(User, { foreignKey: "ShoppingCartId" }); //añade un foringKey ShoppingCartId a User
+User.belongsTo(ShoppingCart, { foreignKey: "ShoppingCartId" }); //añade un foringKey ShoppingCartId a User
 
 //Relaciones de Order
-Order.hasMany(Detail, {foreignKey:'OrderId'}) //añade una foringKey Order a Detail
-Detail.belongsTo(Order, {foreignKey:'UserId'}) //añade una foringKey Order a Detail
+Order.hasMany(Detail, { foreignKey: "OrderId" }); //añade una foringKey Order a Detail
+Detail.belongsTo(Order, { foreignKey: "UserId" }); //añade una foringKey Order a Detail
 
-Order.hasOne(Pay, {foreignKey:'OrderId'}) //añade un foringKey OrderId a Pay
-Pay.belongsTo(Order, {foreignKey:'OrderId'}) //añade un foringKey OrderId a Pay
+Order.hasOne(Pay, { foreignKey: "OrderId" }); //añade un foringKey OrderId a Pay
+Pay.belongsTo(Order, { foreignKey: "OrderId" }); //añade un foringKey OrderId a Pay
 //de la siguiente manera se amplia la posibilidad de busqueda de los controllers para futuras necesidades
-Pay.hasOne(Order, {foreignKey:'PayId'}) //añade un foringKey PayId a Order
-Order.belongsTo(Pay, {foreignKey:'PayId'}) //añade un foringKey PayId a Order
-
-
+Pay.hasOne(Order, { foreignKey: "PayId" }); //añade un foringKey PayId a Order
+Order.belongsTo(Pay, { foreignKey: "PayId" }); //añade un foringKey PayId a Order
 
 // //Language.hasMany(Book); //agrega el id Language a book
-// //Book.hasOne(Language) //llave foranea definida en Language 
+// //Book.hasOne(Language) //llave foranea definida en Language
 // Book.belongsTo(Language,{foreignKey:'PLanguageId'}) //Crea una forinKey en Book
 
 // //revisar relacion cueando se codee el controllador de filtros
@@ -138,7 +136,7 @@ Order.belongsTo(Pay, {foreignKey:'PayId'}) //añade un foringKey PayId a Order
 // //Book.hasMany(Favorite); //agrega el id Book a Favorite
 // //Book.belongsTo(Favorite,{foreignKey:'PBookId'}) //agrega el id Book a Favorite
 // Favorite.belongsTo(Book,{foreignKey:'PBookId'}) //agrega el id Book a Favorite
-// //Favorite.hasOne(Book); // llave foranea definida en book 
+// //Favorite.hasOne(Book); // llave foranea definida en book
 
 // //User.hasMany(Favorite); //agrega el id User a Favorite
 // //User.belongsTo(Favorite,{foreignKey:'UserId'}); //agrega el id User a Favorite
