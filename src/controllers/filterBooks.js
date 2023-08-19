@@ -16,16 +16,12 @@ const filrterBooks = async (req,res,next) =>{
     try{
 
         const{authors,language,publisher,price,rating_ave,tags}=req.query
-        console.log(req.query);
         
         let arrayTags = []
         let arrayAuthor = []
         tags && (arrayTags = [...tags.split(",")])
         authors && (arrayAuthor = [...authors.split(",")])
         
-        console.log(arrayTags);
-        console.log(arrayAuthor);
-
         const whereClause = {};
 
         if (arrayAuthor && arrayAuthor.length > 0) {
