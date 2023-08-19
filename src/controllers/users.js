@@ -29,6 +29,12 @@ const registerUser = async (req, res, next) => {
     const cartToAssociate = await ShoppingCart.create();
     await cartToAssociate.setUser(newUser);
 
+    console.log({
+      message: "User created succesfully!",
+      id: newUser.id,
+      email: newUser.email,
+    });
+
     res.send({
       message: "User created succesfully!",
       id: newUser.id,

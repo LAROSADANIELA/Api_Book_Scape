@@ -95,7 +95,7 @@
 // };
 
 // module.exports = allBooks;
-const { Book, Language, Author } = require("../db");
+const { Book, Author, Tag, Language } = require("../db");
 const { Op } = require("sequelize");
 
 //titulo imagen rating author precio CARD
@@ -117,13 +117,29 @@ const allBooks = async (req, res, next) => {
           "page_count",
           "url",
         ],
-        include: {
-          model: Author,
-          attributes: ["name"],
-          through: {
-            attributes: [],
+        include: [
+          {
+            model: Author,
+            attributes: ["name"],
+            through: {
+              attributes: [],
+            },
           },
-        },
+          {
+            model: Tag,
+            attributes: ["name"],
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Language,
+            attributes: ["language"],
+            // through: {
+            //   attributes: [],
+            // },
+          },
+        ],
       });
       return res.send(allBooksDB);
     }
