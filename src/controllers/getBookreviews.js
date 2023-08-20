@@ -10,24 +10,24 @@ const {
   User,
 } = require("../db");
 
-const userReviews = async (req, res, next) => {
-  //console.log("Funcnion userReviews");
+const bookReviews = async (req, res, next) => {
+  console.log("Funcnion bookReviews");
   const { id } = req.params;
-  //console.log("id", id);
-  //console.log(await User.findByPk(id));
+  console.log("id", id);
+  console.log(await Book.findByPk(id));
   try {
-    if (await User.findByPk(id)) {
-      //console.log("Entre a bucar las reviews de: ", id);
+    if (await Book.findByPk(id)) {
+      console.log("Entre a bucar las reviews de: ", id);
       const reviews = await Review.findAll({
         attributes: ["review_id", "review_text", "rating", "createdAt"],
         include: [
           {
-            model: Book,
-            attributes: ["id_book", "title"],
+            model: User,
+            attributes: ["id", "username"],
           },
         ],
         where: {
-          UserId: id,
+          BookId: id,
         },
       });
       if (reviews.length > 0) {
@@ -41,13 +41,13 @@ const userReviews = async (req, res, next) => {
         });
       }
     } else {
-      return res.status(400).json({ message: "Usuario inexistente" });
+      return res.status(400).json({ message: "Libro inexistente" });
     }
   } catch (error) {
     next(error);
   }
 };
-module.exports = userReviews;
+module.exports = bookReviews;
 
 // include: [
 //   {
