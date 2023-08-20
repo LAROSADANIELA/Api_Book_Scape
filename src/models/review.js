@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
     },
     rating: {
       type: DataTypes.INTEGER,
+      validate: {
+        min: 1, // Establecer el valor mínimo para 'rating'
+        max: 5, // Establecer el valor máximo para 'rating'
+      },
       allowNull: false,
     },
    /*active: {
