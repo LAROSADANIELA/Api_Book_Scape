@@ -35,6 +35,7 @@ module.exports = (sequelize) => {
     },
     active:{
       type: DataTypes.BOOLEAN
+      //agregar defaul true.
       }
   },{paranoid:true});
 };

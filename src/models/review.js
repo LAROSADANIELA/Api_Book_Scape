@@ -15,11 +15,6 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    review_date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
    /*active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

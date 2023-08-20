@@ -1,4 +1,4 @@
-const { User, ShoppingCart, Pay, Review, Favorite, Order } = require("../db");
+const { User, ShoppingCart, Pay, Review, Favorite, Order, Book } = require("../db");
 const bcrypt = require("bcrypt");
 const { MY_SECRET } = process.env;
 const { Op } = require("sequelize");
@@ -95,7 +95,28 @@ const getUsers = async (req, res, next) => {
   try {
     const { username } = req.query;
     if (username) {
-      const searchUser = await User.findOne({
+      const searchUser = await User.findOne(
+        {
+          include: [
+          {
+            model: ShoppingCart,
+            attributes: ["cart_id"],
+            include: Book,
+          },
+          {
+            model: Favorite,
+            attributes: ["BookId"],
+          },
+          {
+            model: Review,
+          },
+          {
+            model: Order,
+          },
+          {
+            model: Pay,
+          },
+        ],
         where: {
           username: {
             [Op.iLike]: `%${username}%`,
