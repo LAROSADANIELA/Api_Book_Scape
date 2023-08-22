@@ -48,24 +48,3 @@ const userReviews = async (req, res, next) => {
   }
 };
 module.exports = userReviews;
-
-// include: [
-//   {
-//       model: Tag,
-//       attributes: ["name"],
-//       through: {
-//         attributes: [],
-//       },
-//     },
-//     {
-//       model: Author,
-//       attributes: ["name"],
-//       through: {
-//         attributes: [],
-//       },
-//     },
-//     {
-//       model: Language,
-//       attributes: ["language"],
-//     },
-// ],

@@ -48,24 +48,3 @@ const bookReviews = async (req, res, next) => {
   }
 };
 module.exports = bookReviews;
-
-// include: [
-//   {
-//       model: Tag,
-//       attributes: ["name"],
-//       through: {
-//         attributes: [],
-//       },
-//     },
-//     {
-//       model: Author,
-//       attributes: ["name"],
-//       through: {
-//         attributes: [],
-//       },
-//     },
-//     {
-//       model: Language,
-//       attributes: ["language"],
-//     },
-// ],

@@ -4,7 +4,9 @@ const createFavorite= async (req,res,next)=>{
     try{
         const { userId, bookId } = req.body;
             if(userId && bookId){
-                if(Book.findByPk(Number(bookId)) && User.findByPk(userId)){
+                const book = await Book.findByPk(Number(bookId))
+                const user = await User.findByPk(userId)
+                if(book && user ){
                     const favorite = await Favorite.create(
                         {
                             BookId: Number(bookId),

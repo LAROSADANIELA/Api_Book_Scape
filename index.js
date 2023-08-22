@@ -1,7 +1,7 @@
 const app = require("./src/app");
 const { conn } = require("./src/db.js");
 const fillBdd = require("./src/controllers/fillBdd");
-const fillUsers = require("./src/controllers/fillUsers");
+const fillUsers = require("./src/controllers/fillUsers")
 require("dotenv").config();
 const { SV_PORT } = process.env;
 //const fillBdd = require ("./src/controllers/fillBdd")
@@ -12,7 +12,7 @@ async function main() {
     await conn.authenticate();
     console.log("Connection has been established successfully.");
     // Sincronizar el modelo de la base de datos
-    conn.sync({ alter: true }).then(() => {
+    conn.sync({ /*force: true*/alter: true }).then(() => {
       //fillBdd();
       //fillUsers();
       // Iniciar el servidor web en el puerto especificado

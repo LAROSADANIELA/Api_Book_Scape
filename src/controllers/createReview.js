@@ -4,7 +4,9 @@ const createReview = async (req,res,next)=>{
     try{
         const { userId, bookId, review_text, rating } = req.body;
             if(userId && bookId && review_text && rating){
-                if(Book.findByPk(Number(bookId)) && User.findByPk(userId)){
+                const  book = await Book.findByPk(Number(bookId))
+                const  user = await User.findByPk(userId)
+                if(book && user ){
                     const review = await Review.create(
                         {
                             review_text: review_text,
