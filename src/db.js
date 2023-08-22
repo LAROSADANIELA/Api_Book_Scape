@@ -61,7 +61,7 @@ const {
   Publisher,
   Tag,
   Author,
-  Rating_avg_book,
+  //Rating_avg_book,
 } = sequelize.models;
 //!Revisar todas las relaciones hasMany y pasar a belongto()
 // Aca vendrian las relaciones

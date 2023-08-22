@@ -6,6 +6,6 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
-    avg_rating: DataTypes.NUMBER,
+    avg_rating: DataTypes.FLOAT,
   });
 };
