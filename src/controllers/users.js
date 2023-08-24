@@ -60,12 +60,14 @@ const registerUser = async (req, res, next) => {
       message: "User created succesfully!",
       id: newUser.id,
       email: newUser.email,
+      cartId: cartToAssociate.cart_id,
     });
 
     res.send({
       message: "User created succesfully!",
       id: newUser.id,
       email: newUser.email,
+      cartId: cartToAssociate.cart_id,
     });
   } catch (error) {
     next(error);
@@ -217,7 +219,7 @@ const toggleUserActiveStatus = async (req, res, next) => {
     await user.save();
 
     console.log(`User active status changed to ${newActiveStatus}`);
-    res.send(`User active status changed to ${newActiveStatus}`);
+    res.send(newActiveStatus);
   } catch (error) {
     next(error);
   }
