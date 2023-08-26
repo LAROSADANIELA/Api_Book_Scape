@@ -107,12 +107,23 @@ const loginUser = async (req, res, next) => {
         MY_SECRET,
         { expiresIn: "12h" }
       );
+
+      const Shoppingcart = await ShoppingCart.findOne(
+        {
+          attributes: ["cart_id"],
+          where: {
+            UserId: userCheck.id,
+          }
+        }
+      );
+
       res.send({
         token: jwtToken,
         message: "Login succesfully!",
         id: userCheck.id,
         email: userCheck.email,
         username: userCheck.username,
+        shoppingcartId: Shoppingcart
       });
     }
   } catch (error) {
