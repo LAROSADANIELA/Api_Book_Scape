@@ -108,14 +108,12 @@ const loginUser = async (req, res, next) => {
         { expiresIn: "12h" }
       );
 
-      const Shoppingcart = await ShoppingCart.findOne(
-        {
-          attributes: ["cart_id"],
-          where: {
-            UserId: userCheck.id,
-          }
-        }
-      );
+      const Shoppingcart = await ShoppingCart.findOne({
+        attributes: ["cart_id"],
+        where: {
+          UserId: userCheck.id,
+        },
+      });
 
       res.send({
         token: jwtToken,
@@ -123,7 +121,7 @@ const loginUser = async (req, res, next) => {
         id: userCheck.id,
         email: userCheck.email,
         username: userCheck.username,
-        shoppingcartId: Shoppingcart
+        shoppingcartId: Shoppingcart,
       });
     }
   } catch (error) {
@@ -176,28 +174,28 @@ const getUsers = async (req, res, next) => {
           {
             model: ShoppingCart,
             attributes: ["cart_id"],
-            include:[
+            include: [
               {
                 model: Book,
-                attributes: ["title","id_book"]
+                attributes: ["title", "id_book"],
               },
             ],
           },
           {
             model: Favorite,
-            include:[
+            include: [
               {
                 model: Book,
-                attributes: ["title","id_book"]
+                attributes: ["title", "id_book"],
               },
             ],
           },
           {
             model: Review,
-            include:[
+            include: [
               {
                 model: Book,
-                attributes: ["title","id_book"]
+                attributes: ["title", "id_book"],
               },
             ],
           },
@@ -241,7 +239,7 @@ const searchUserById = async (req, res, next) => {
       ],
     });
     if (searchUser) res.send(searchUser);
-    else res.send({ message: "ID User has not been found" });
+    else res.status(404).json({ message: "ID User has not been found" });
   } catch (error) {
     next(error);
   }
@@ -256,7 +254,7 @@ const toggleUserActiveStatus = async (req, res, next) => {
 
     if (!user) {
       console.log("User not found");
-      res.send("User not found");
+      res.status(404).json("User not found");
       return;
     }
 
