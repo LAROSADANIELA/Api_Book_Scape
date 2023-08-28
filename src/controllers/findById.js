@@ -36,7 +36,10 @@ const findById = async (req, res, next) => {
         },
       ],
     });
-    res.send(book);
+    if (!book) {
+      return res.status(404).json({ message: "Not found!", book: book });
+    }
+    return res.status(200).json(book);
   } catch (error) {
     next(error);
   }
