@@ -175,23 +175,23 @@ const searchUserById = async (req, res, next) => {
     const { id } = req.params;
     const searchUser = await User.findByPk(id, {
       attributes: ["id", "email", "username"],
-      // include: [
-      //   {
-      //     model: ShoppingCart,
-      //   },
-      //   {
-      //     model: Favorite,
-      //   },
-      //   {
-      //     model: Review,
-      //   },
-      //   {
-      //     model: Order,
-      //   },
-      //   {
-      //     model: Pay,
-      //   },
-      // ],
+      include: [
+        {
+          model: ShoppingCart,
+        },
+        {
+          model: Favorite,
+        },
+        {
+          model: Review,
+        },
+        {
+          model: Order,
+        },
+        {
+          model: Pay,
+        },
+      ],
     });
     if (searchUser) res.send(searchUser);
     else res.send({ message: "ID User has not been found" });
