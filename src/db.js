@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST, RW_USERdb, RW_PORTdb } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, RW_URLdb, RW_USERdb, RW_PORTdb } = process.env;
 
 /* const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/bookscape`,
@@ -14,7 +14,7 @@ const { DB_USER, DB_PASSWORD, DB_HOST, RW_USERdb, RW_PORTdb } = process.env;
 
 // Conectar con la DB remota (Railway)
  const sequelize = new Sequelize(
-   `postgresql://postgres:${RW_USERdb}@containers-us-west-155.railway.app:${RW_PORTdb}/railway`,
+   `postgresql://postgres:${RW_USERdb}@${RW_URLdb}:${RW_PORTdb}/railway`,
    {
      logging: false, // set to console.log to see the raw SQL queries
      native: false, // lets Sequelize know we can use pg-native for ~30% more speed
