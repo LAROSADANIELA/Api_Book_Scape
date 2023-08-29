@@ -1,17 +1,16 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("Publisher", {
+  sequelize.define("Author", {
+    /// id seria el codigo ISBN del libro ///
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    name:{
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-  },
-  {paranoid: true})
-  ;
+  },{paranoid:true});
 };

@@ -1,11 +1,11 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("ShoppingCart", {
-    cart_id: {
+  sequelize.define("rating_avg_book", {
+    BookId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
     },
+    avg_rating: DataTypes.FLOAT,
   });
 };

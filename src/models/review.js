@@ -7,40 +7,22 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "Users", // Nombre de la tabla de usuarios (User)
-        key: "user_id", // Columna referenciada en la tabla de usuarios
-      },
-    },
-    book_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      allowNull: false,
-      references: {
-        model: "Books", // Nombre de la tabla de libros (Book)
-        key: "book_id", // Columna referenciada en la tabla de libros
-      },
-    },
     review_text: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
     rating: {
       type: DataTypes.INTEGER,
+      validate: {
+        min: 1, // Establecer el valor mínimo para 'rating'
+        max: 5, // Establecer el valor máximo para 'rating'
+      },
       allowNull: false,
     },
-    review_date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    active: {
+   /*active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
-    },
-  });
+    },*/
+  },{paranoid:true});
 };

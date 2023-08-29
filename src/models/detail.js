@@ -1,17 +1,22 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("Publisher", {
+  sequelize.define("Detail", {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
-      type: DataTypes.STRING,
+    precio: {
+      type: DataTypes.DECIMAL(10, 2),
+    },
+    image: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
-  },
-  {paranoid: true})
-  ;
+    book: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  });
 };

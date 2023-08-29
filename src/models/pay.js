@@ -12,23 +12,21 @@ la respuesta del medio de pago https://www.mercadopago.com.ar/developers/es/docs
       id_pay: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        primaryKey: true,
       },
-
       order_date: {
         type: DataTypes.DATE,
       },
-
       total_order: {
         type: DataTypes.DECIMAL(10, 2),
       },
       payment_status: {
         type: DataTypes.ENUM("Pending", "Completed"),
       },
-
       date_approved: {
         type: DataTypes.DATE,
       },
-
+/*
       id_payment: {},
 
       authorization_code: {},
@@ -38,7 +36,7 @@ la respuesta del medio de pago https://www.mercadopago.com.ar/developers/es/docs
       fee_mp: {},
 
       active: {},
-
+*/
     },
    
   );
