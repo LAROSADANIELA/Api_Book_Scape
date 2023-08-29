@@ -270,10 +270,100 @@ const toggleUserActiveStatus = async (req, res, next) => {
   }
 };
 
+const updateUser = async (req, res, next) => {
+  try {
+    // console.log(id, "id");
+    const { id, username, email, password, newPassword } = req.body;
+    console.log(id, username, email, password, newPassword, "datos enviados");
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.send({ message: "Usuario no encontrado" });
+    }
+
+    // Verificar si el nuevo email ya está registrado por otro usuario
+    if (email && email !== user.email) {
+      const emailExists = await User.findOne({
+        where: { email: email },
+      });
+
+      if (emailExists) {
+        return res.send({ message: "Email ya está registrado" });
+      }
+    }
+
+    // Actualizar campos de perfil
+    user.username = username || user.username;
+    user.email = email || user.email;
+
+    if (newPassword) {
+      // Encriptar la nueva contraseña
+      const saltRounds = 10;
+      const hashedNewPassword = await bcrypt.hash(newPassword, saltRounds);
+      user.password = hashedNewPassword;
+    }
+
+    await user.save();
+
+    // Obtener los datos actualizados del usuario (excluyendo la contraseña)
+    const updatedUser = await User.findOne({
+      where: { id: user.id },
+      attributes: ["id", "email", "username"],
+    });
+    return res.send({
+      message: "Información de usuario actualizada",
+      user: updatedUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    await user.destroy();
+
+    return res.status(200).json({ message: "Usuario eliminado exitosamente" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const restoreUser = async (req, res, next) => {
+  try {
+    const { id } = req.params; // Obtener el ID del usuario a restaurar desde los parámetros de la URL
+
+    // Restaurar al usuario desactivando la eliminación lógica
+    const restoredUser = await User.restore({
+      where: { id: id },
+    });
+
+    if (!restoredUser) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    return res.status(200).json({ message: "Usuario restaurado exitosamente" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   searchUserById,
   getUsers,
   toggleUserActiveStatus,
+  updateUser,
+  deleteUser,
+  restoreUser,
 };
