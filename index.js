@@ -16,7 +16,7 @@ async function main() {
     conn.sync({ /* force: true */alter: true }).then(() => {
       //fillBdd();
       //fillUsers();
-      //fillRating()
+      // fillRating()
       // Iniciar el servidor web en el puerto especificado
       app.listen(PORT, () => {
         console.log(`%s listening at ${PORT}`); // eslint-disable-line no-console
