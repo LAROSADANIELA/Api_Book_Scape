@@ -19,6 +19,12 @@ const jwt = require("jsonwebtoken");
 //--------------------------------------------------------
 
 //Registro de un nuevo usuario -----------------------------------------------
+
+//si el email ya esxiste en la base de datos, y te estaslogueando por google, agergar a ese ID USER los datos de
+//google, devolver message se agregaron campos de google
+//PERO si LSO DATOS DE GOGOLE YA ESTAN (SUB) se devuelve loogin existoso Y
+//SI NO tiENE NINGUN USUARIO? SE CREA USER
+
 const registerUser = async (req, res, next) => {
   try {
     const { email, password, username } = req.body;
@@ -78,8 +84,83 @@ const registerUser = async (req, res, next) => {
 // puede iniciar sesion con username o email y contraseña--------------------------------------------
 const loginUser = async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, credenciales } = req.body;
+    if (credenciales) {
+      //verificar que el usuario exista como google SUB
+      const userCheckGoogle = await User.findOne({
+        where: {
+          sub: credenciales.sub,
+        },
+      });
+      if (userCheckGoogle) {
+        const Shoppingcart = await ShoppingCart.findOne({
+          attributes: ["cart_id"],
+          where: {
+            sub: credenciales.sub,
+          },
+        });
 
+        return res.send({
+          message: "Usuario Ya registrado con google",
+          message: "Login succesfully!",
+          id: userCheckGoogle.id,
+          email: userCheckGoogle.email,
+          username: userCheckGoogle.username,
+          shoppingcartId: Shoppingcart,
+        });
+      } else {
+        //verifico que el usuario exista comparando el email con email de gooole
+        const userCheckExistingUser = await User.findOne({
+          where: {
+            email: credenciales.email,
+          },
+        });
+        if (userCheckExistingUser) {
+          //agrego los datos de GOOGLE al usuario
+          userCheckExistingUser.azp = credenciales.azp;
+          userCheckExistingUser.aud = credenciales.aud;
+          userCheckExistingUser.email_verified = credenciales.email_verified;
+          userCheckExistingUser.family_name = credenciales.family_name;
+          userCheckExistingUser.given_name = credenciales.given_name;
+          userCheckExistingUser.name = credenciales.name;
+          userCheckExistingUser.locale = credenciales.locale;
+          userCheckExistingUser.picture = credenciales.picture;
+          userCheckExistingUser.sub = credenciales.sub;
+          await userCheckExistingUser.save();
+        } else {
+          //si no existe usuario email, crearlo por completo
+          const newUser = await User.create({
+            azp: credenciales.azp,
+            aud: credenciales.aud,
+            email_verified: credenciales.email_verified,
+            family_name: credenciales.family_name,
+            given_name: credenciales.given_name,
+            name: credenciales.name,
+            locale: credenciales.locale,
+            picture: credenciales.picture,
+            sub: credenciales.sub,
+            email: credenciales.email,
+            username: credenciales.email,
+          });
+          const cartToAssociate = await ShoppingCart.create();
+          await cartToAssociate.setUser(newUser);
+
+          console.log({
+            message: "User created succesfully!",
+            id: newUser.id,
+            email: newUser.email,
+            cartId: cartToAssociate.cart_id,
+          });
+
+          res.send({
+            message: "User created succesfully!",
+            id: newUser.id,
+            email: newUser.email,
+            cartId: cartToAssociate.cart_id,
+          });
+        }
+      }
+    }
     const userCheck = await User.findOne({
       where: {
         [Op.or]: [{ username: username }, { email: username }],
