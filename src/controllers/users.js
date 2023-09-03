@@ -92,15 +92,16 @@ const logginGoogle = async (req, res, next) => {
     console.log("body", req.body);
     console.log("se obtuvieron las credenciales del body", credenciales);
     if (credenciales) {
-      //verificar que el usuario exista como google SUB
+      //verificar que el usuario exista como google email
       console.log(
         "Si hubo credenciales se busca si ya fue registrado por google"
       );
-      const userCheckGoogle = await User.findOne({
-        where: {
-          email: credenciales.email,
-        },
-      });
+        const userCheckGoogle = await User.findOne({
+          where: {
+            email: credenciales.email,
+          },
+        });
+      console.log("userCheckGoogle",userCheckGoogle);
       if (userCheckGoogle) {
         console.log(
           "si existen los datos de google en la base previamente se busca su CART"
