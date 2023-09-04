@@ -5,6 +5,15 @@ const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST, RW_URLdb, RW_USERdb, RW_PORTdb } =
   process.env;
 
+<<<<<<< HEAD
+const sequelize = new Sequelize(
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/bookscape`,
+  {
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  }
+);
+=======
 // const sequelize = new Sequelize(
 //   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/bookscape`,
 //   {
@@ -12,15 +21,16 @@ const { DB_USER, DB_PASSWORD, DB_HOST, RW_URLdb, RW_USERdb, RW_PORTdb } =
 //     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 //   }
 // ); 
+>>>>>>> 5c377909507a94d6306973f45a13c9696eb4d519
 
 // Conectar con la DB remota (Railway)
- const sequelize = new Sequelize(
-   `postgresql://postgres:${RW_USERdb}@${RW_URLdb}:${RW_PORTdb}/railway`,
-   {
-     logging: false, // set to console.log to see the raw SQL queries
-     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-    }
-);
+//  const sequelize = new Sequelize(
+//    `postgresql://postgres:${RW_USERdb}@${RW_URLdb}:${RW_PORTdb}/railway`,
+//    {
+//      logging: false, // set to console.log to see the raw SQL queries
+//      native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+//     }
+// );
 
 const basename = path.basename(__filename);
 
