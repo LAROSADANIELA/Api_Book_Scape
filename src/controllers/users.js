@@ -301,11 +301,7 @@ const loginUser = async (req, res, next) => {
         { expiresIn: "12h" }
       );
 
-<<<<<<< HEAD
-      const shoppingcart = await ShoppingCart.findOne({
-=======
       const Shoppingcart = await ShoppingCart.findOne({
->>>>>>> f2fd153e5d3d90fdab24f6b3a0c8f78058eaa626
         attributes: ["cart_id"],
         where: {
           UserId: userCheck.id,
@@ -318,11 +314,7 @@ const loginUser = async (req, res, next) => {
         id: userCheck.id,
         email: userCheck.email,
         username: userCheck.username,
-<<<<<<< HEAD
-        shoppingcartId: shoppingcart,
-=======
         shoppingcartId: Shoppingcart,
->>>>>>> f2fd153e5d3d90fdab24f6b3a0c8f78058eaa626
       });
     }
   } catch (error) {
@@ -567,8 +559,5 @@ module.exports = {
   updateUser,
   deleteUser,
   restoreUser,
-<<<<<<< HEAD
   logginGoogle,
-=======
->>>>>>> f2fd153e5d3d90fdab24f6b3a0c8f78058eaa626
 };

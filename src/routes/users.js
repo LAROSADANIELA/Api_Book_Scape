@@ -8,10 +8,7 @@ const {
   updateUser,
   deleteUser,
   restoreUser,
-<<<<<<< HEAD
   logginGoogle
-=======
->>>>>>> f2fd153e5d3d90fdab24f6b3a0c8f78058eaa626
 } = require("../controllers/users");
 const router = express.Router();
 
