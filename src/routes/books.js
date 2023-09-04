@@ -7,7 +7,7 @@ const findById = require("../controllers/findById");
 const allLanguage = require("../controllers/allLanguage");
 const allAuthors = require("../controllers/allAuthors");
 const upDateBook = require("../controllers/upDateBook");
-const deleteBook = require("../controllers/deleteBook");
+const { deleteBook, getDeletedBooks } = require("../controllers/deleteBook");
 const restoreBook = require("../controllers/restoreBook");
 const createBook = require("../controllers/createBook");
 //const getAllRatingBook = require('../controllers/ratingBook');
@@ -16,6 +16,7 @@ const createBook = require("../controllers/createBook");
 
 router.get("/", allBooks);
 router.get("/language", allLanguage);
+router.get("/removed", getDeletedBooks);
 router.get("/book/:id", findById);
 router.get("/filter", filterBooks);
 router.get("/tags", allTags);
