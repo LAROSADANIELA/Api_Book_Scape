@@ -129,6 +129,7 @@ const logginGoogle = async (req, res, next) => {
           cartId: shoppingcart.ShoppingCart ? shoppingcart.ShoppingCart.cart_id : null,
         });
         return res.send({
+          token: "ok",
           message: "Login succesfully!",
           id: shoppingcart.id,
           email: shoppingcart.email,
@@ -192,6 +193,7 @@ const logginGoogle = async (req, res, next) => {
           // });
           // console.log("se envia mensaje de usaurio creado succesfully");
           return res.send({
+            token: "ok",
             message: "User created succesfully!",
             id: newUser.id,
             email: newUser.email,
