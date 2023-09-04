@@ -468,26 +468,6 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-const getDeletedUsers = async (req, res, next) => {
-  try {
-    // Consulta todos los usuarios eliminados lógicamente
-    const deletedUsers = await User.findAll({
-      paranoid: false, // Incluye registros eliminados lógicamente
-      where: { deletedAt: { [Op.ne]: null } }, // Filtra registros con deletedAt no nulo
-    });
-
-    if (deletedUsers.length === 0) {
-      return res
-        .status(200)
-        .json({ message: "No se encontraron usuarios eliminados" });
-    }
-
-    return res.status(200).json(deletedUsers);
-  } catch (error) {
-    next(error);
-  }
-};
-
 const restoreUser = async (req, res, next) => {
   try {
     const { id } = req.params; // Obtener el ID del usuario a restaurar desde los parámetros de la URL
@@ -515,7 +495,6 @@ module.exports = {
   toggleUserActiveStatus,
   updateUser,
   deleteUser,
-  getDeletedUsers,
   restoreUser,
   logginGoogle,
 };
