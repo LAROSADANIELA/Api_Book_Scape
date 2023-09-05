@@ -198,6 +198,7 @@ const logginGoogle = async (req, res, next) => {
             id: newUser.id,
             email: newUser.email,
             cartId: cartToAssociate.cart_id,
+            username: credenciales.given_name,
           });
         }
       } 
