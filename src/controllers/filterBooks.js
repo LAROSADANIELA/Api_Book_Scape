@@ -15,7 +15,7 @@ const {QueryTypes} = require("sequelize")
 const filrterBooks = async (req,res,next) =>{
     try{
         const{authors,language,publisher,price,rating_ave,tags}=req.query
-        
+
         const arrayAuthors = authors ? (authors.split(",").map(author=>author.replace("+"," "))): null;
         
         const arrayTags = tags ? (tags.split(",").map(tag=>tag.replace("+"," "))) : null;
@@ -76,7 +76,7 @@ const filrterBooks = async (req,res,next) =>{
                 max_price: price ? Number(price) : null,
                 publisher_name: publisher || null,
                 language: language || null,
-                rating_ave: rating_ave ? Number(rating_ave) : null,
+                rating_ave: Number(rating_ave) ? Number(rating_ave) : null,
                 tag_names: arrayTags ? JSON.stringify(arrayTags) : null,
             },
             raw: true,
