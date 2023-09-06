@@ -16,9 +16,10 @@ const filrterBooks = async (req,res,next) =>{
     try{
         const{authors,language,publisher,price,rating_ave,tags}=req.query
         
-        const arrayAuthors = authors ? authors.split(",") : null;
-        const arrayTags = tags ? tags.split(",") : null;
-            
+        const arrayAuthors = authors ? (authors.split(",").map(author=>author.replace("+"," "))): null;
+        
+        const arrayTags = tags ? (tags.split(",").map(tag=>tag.replace("+"," "))) : null;
+
         const filteredBooks = await conn.query(`
         SELECT
         b.id_book,
