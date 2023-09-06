@@ -1,4 +1,6 @@
 const { Book, Publisher, Author, Language, Tag } = require("../db");
+const cloudinary = require("../utils/cloudinary");
+
 const createBook = async (req, res, next) => {
   try {
     const {
@@ -7,8 +9,6 @@ const createBook = async (req, res, next) => {
       published_date,
       price,
       description,
-      rating_ave,
-      image,
       page_count,
       url,
       publisher,
@@ -17,8 +17,19 @@ const createBook = async (req, res, next) => {
       tags,
     } = req.body;
 
+    if (req.file === null) {
+      return;
+    }
     if (title.length === 0 || isbn.length === 0 || price.length === 0)
-      return res.send("Title, genre and price are required");
+      return res.send("Titulo, ISBN y precio son requeriods");
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send("No se cargaron archivos.");
+    }
+
+    const file = await cloudinary(req.files.image.tempFilePath);
+    console.log(file, "file");
+    image = file;
 
     // Publisher
     let publisherBody = await Publisher.findOne({
@@ -39,8 +50,10 @@ const createBook = async (req, res, next) => {
     }
 
     // Authors
+    const authorNames = Array.isArray(authors) ? authors : [authors]; // Convierte en arreglo si no lo es
+
     const authorsBody = await Promise.all(
-      authors.map(async (authorName) => {
+      authorNames.map(async (authorName) => {
         let author = await Author.findOne({
           where: { name: authorName },
         });
@@ -54,8 +67,10 @@ const createBook = async (req, res, next) => {
     );
 
     // Tags
+    const tagNames = Array.isArray(tags) ? tags : [tags]; // Convierte en arreglo si no lo es
+
     const tagsBody = await Promise.all(
-      tags.map(async (tagName) => {
+      tagNames.map(async (tagName) => {
         let tag = await Tag.findOne({
           where: { name: tagName },
         });
@@ -75,9 +90,8 @@ const createBook = async (req, res, next) => {
       published_date,
       price,
       description,
-      rating_ave,
-      image,
       page_count,
+      image,
       url,
       PublisherId: publisherBody.id,
       LanguageId: languageBody.id,
@@ -85,6 +99,8 @@ const createBook = async (req, res, next) => {
 
     await newBook.setAuthors(authorsBody);
     await newBook.setTags(tagsBody);
+
+    console.log(newBook, "nuwvo libro");
 
     res.send({
       message: "Book created successfully!",
