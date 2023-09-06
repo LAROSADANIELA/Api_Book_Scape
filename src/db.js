@@ -11,15 +11,15 @@ const { DB_USER, DB_PASSWORD, DB_HOST, RW_URLdb, RW_USERdb, RW_PORTdb } =
 //     logging: false, // set to console.log to see the raw SQL queries
 //     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 //   }
-// ); 
+// );
 
 // Conectar con la DB remota (Railway)
- const sequelize = new Sequelize(
-   `postgresql://postgres:${RW_USERdb}@${RW_URLdb}:${RW_PORTdb}/railway`,
-   {
-     logging: false, // set to console.log to see the raw SQL queries
-     native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-    }
+const sequelize = new Sequelize(
+  `postgresql://postgres:${RW_USERdb}@${RW_URLdb}:${RW_PORTdb}/railway`,
+  {
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  }
 );
 
 const basename = path.basename(__filename);
