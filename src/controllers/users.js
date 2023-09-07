@@ -138,6 +138,7 @@ const logginGoogle = async (req, res, next) => {
           message: "Login succesfully!",
           id: shoppingcart.id,
           email: shoppingcart.email,
+          admin: userCheckGoogle.admin,///se agrega el flag admin a la respuesta
           username:
             credenciales.given_name /*shoppingcart.username ? shoppingcart.email : shoppingcart.email*/,
           cartId: shoppingcart.ShoppingCart
@@ -284,6 +285,7 @@ const loginUser = async (req, res, next) => {
         message: "Login succesfully!",
         id: userCheck.id,
         email: userCheck.email,
+        admin: userCheck.admin, //se agrega flag admin
         username: userCheck.username,
         shoppingcartId: Shoppingcart,
       });
