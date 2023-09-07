@@ -88,22 +88,22 @@ const registerUser = async (req, res, next) => {
 const logginGoogle = async (req, res, next) => {
   try {
     // console.log("INGRESE AL LOGGIN DE GOOGLE");
-    const credenciales  = req.body;
+    const credenciales = req.body;
     // console.log("body", req.body);
     // console.log("se obtuvieron las credenciales del body", credenciales);
     if (credenciales) {
       //verificar que el usuario exista como google email
       // console.log("Si hubo credenciales se busca si ya fue registrado por google");
-        const userCheckGoogle = await User.findOne({
-          where: {
-            email: credenciales.email,
-          },
-        });
+      const userCheckGoogle = await User.findOne({
+        where: {
+          email: credenciales.email,
+        },
+      });
       // console.log("userCheckGoogle",userCheckGoogle);
       if (userCheckGoogle) {
         // console.log("si existen los datos de google en la base previamente se busca su CART");
         const shoppingcart = await User.findOne({
-          attributes: ["id","email"],
+          attributes: ["id", "email"],
           include: {
             model: ShoppingCart,
             attributes: ["cart_id"],
@@ -112,8 +112,13 @@ const logginGoogle = async (req, res, next) => {
             email: credenciales.email,
           },
         });
-        console.log("usuario ya registrado por gogole, se busco Cart", shoppingcart)
-        console.log("se envia Usuario Ya registrado con googlem y los datos de usuario");
+        console.log(
+          "usuario ya registrado por gogole, se busco Cart",
+          shoppingcart
+        );
+        console.log(
+          "se envia Usuario Ya registrado con googlem y los datos de usuario"
+        );
         /* return res.status(200).json({
           message: "Login succesfully!",
           id: userCheckGoogle.id,
@@ -133,9 +138,12 @@ const logginGoogle = async (req, res, next) => {
           message: "Login succesfully!",
           id: shoppingcart.id,
           email: shoppingcart.email,
-          username: credenciales.given_name/*shoppingcart.username ? shoppingcart.email : shoppingcart.email*/,
-          cartId: shoppingcart.ShoppingCart ? shoppingcart.ShoppingCart.cart_id : null,
-        }); 
+          username:
+            credenciales.given_name /*shoppingcart.username ? shoppingcart.email : shoppingcart.email*/,
+          cartId: shoppingcart.ShoppingCart
+            ? shoppingcart.ShoppingCart.cart_id
+            : null,
+        });
       } else {
         // console.log(
         //   "si no existian los datos de goole verificamos si existia el mail aunque sea"
@@ -162,7 +170,7 @@ const logginGoogle = async (req, res, next) => {
           userCheckExistingUser.sub = credenciales.sub;
 
           const shoppingCart = await User.findOne({
-            attributes: ["id","email"],
+            attributes: ["id", "email"],
             include: {
               model: ShoppingCart,
               attributes: ["cart_id"],
@@ -179,9 +187,12 @@ const logginGoogle = async (req, res, next) => {
             message: "Login succesfully!",
             id: shoppingCart.id,
             email: shoppingCart.email,
-            username: credenciales.given_name/*shoppingcart.username ? shoppingcart.email : shoppingcart.email*/,
-            cartId: shoppinCart.ShoppingCart ? shoppingCart.ShoppingCart.cart_id : null,
-          }); 
+            username:
+              credenciales.given_name /*shoppingcart.username ? shoppingcart.email : shoppingcart.email*/,
+            cartId: shoppinCart.ShoppingCart
+              ? shoppingCart.ShoppingCart.cart_id
+              : null,
+          });
         } else {
           // console.log(
           //   "si no existe el mail del usuario se crea el usuario con todos los datos de google y usernane = email y name = name de google"
@@ -221,9 +232,9 @@ const logginGoogle = async (req, res, next) => {
             username: credenciales.given_name,
           });
         }
-      } 
+      }
     } else {
-      return res.send({message: "La api no resibió las credenciales"});
+      return res.send({ message: "La api no resibió las credenciales" });
     }
   } catch (error) {
     next(error);
@@ -490,6 +501,25 @@ const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+const getDeletedUsers = async (req, res, next) => {
+  try {
+    // Consulta todos los usuarios eliminados lógicamente
+    const deletedUsers = await User.findAll({
+      paranoid: false, // Incluye registros eliminados lógicamente
+      where: { deletedAt: { [Op.ne]: null } }, // Filtra registros con deletedAt no nulo
+    });
+
+    if (deletedUsers.length === 0) {
+      return res
+        .status(200)
+        .json({ message: "No se encontraron usuarios eliminados" });
+    }
+
+    return res.status(200).json(deletedUsers);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const restoreUser = async (req, res, next) => {
   try {
@@ -518,6 +548,7 @@ module.exports = {
   toggleUserActiveStatus,
   updateUser,
   deleteUser,
+  getDeletedUsers,
   restoreUser,
   logginGoogle,
 };

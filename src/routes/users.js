@@ -8,12 +8,14 @@ const {
   updateUser,
   deleteUser,
   restoreUser,
-  logginGoogle
+  logginGoogle,
+  getDeletedUsers,
 } = require("../controllers/users");
 const router = express.Router();
 
 /* GET users listing. */
 router.get("/", getUsers);
+router.get("/removed", getDeletedUsers);
 router.get("/:id", searchUserById);
 router.put("/update", updateUser);
 router.put("/:id", toggleUserActiveStatus);
